@@ -1,21 +1,30 @@
-const yaml = require('js-yaml');
-const fileSystem = require('fs');
+const fetch = require('node-fetch');
+const base64 = require('base64url');
 
-const getJSObjectFromYML = (relativeFilePath) => (
-  yaml.safeLoad(fileSystem.readFileSync(relativeFilePath, 'utf8'))
-);
+const fontAwesomeFiles = [
+  "categories.yml",
+  "icons.yml"
+];
 
-let FontIcons, IconCategories;
-
-// Try reading Icon files and Categories of Icons from `.yml` files
-try {
-  FontIcons = getJSObjectFromYML('./yml_files/icons.yml');
-  IconCategories = getJSObjectFromYML('./yml_files/categories.yml');
-} catch (error) {
-  console.log(error);
-}
+// Grab Font Awesome YML files from Font Awesome Github repo
+const getFontAwesomeIcons = () => {
+  return Promise.all(fontAwesomeFiles.map((fileName) => new Promise((resolve, reject) => {
+    fetch(`https://api.github.com/repos/FortAwesome/Font-Awesome/contents/metadata/${fileName}`)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        return reject(res.statusText);
+      })
+      .then((res) => {
+        const decodedContent = base64.decode(res.content);
+        resolve(decodedContent);
+      }).catch((err) => reject(err))
+  })
+  ));
+};
 
 module.exports = {
-  FontIcons,
-  IconCategories,
+  getFontAwesomeIcons,
+  fontAwesomeFiles,
 };
