@@ -17,14 +17,15 @@ const getFontAwesomeIcons = () => {
         return reject(res.statusText);
       })
       .then((res) => {
-        const decodedContent = base64.decode(res.content);
-        resolve(decodedContent);
+        const { name, content } = res;
+        const decodedContent = base64.decode(content);
+        resolve({
+          name,
+          decodedContent,
+        });
       }).catch((err) => reject(err))
   })
   ));
 };
 
-module.exports = {
-  getFontAwesomeIcons,
-  fontAwesomeFiles,
-};
+module.exports = getFontAwesomeIcons;

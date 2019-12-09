@@ -1,15 +1,16 @@
 const fileSystem = require('fs');
-const { getFontAwesomeIcons, fontAwesomeFiles } = require('./icons.js');
+const getFontAwesomeIcons = require('./icons.js');
 
 getFontAwesomeIcons()
   .then((decodedContent) => {
-    fontAwesomeFiles.forEach((fileName) => {
-      fileSystem.writeFile(`./yml_files/${fileName}`, decodedContent, (err) => {
+    decodedContent.forEach((fileMetaData) => {
+      const { name, decodedContent } = fileMetaData;
+      fileSystem.writeFile(`./yml_files/${name}`, decodedContent, (err) => {
         if (err) {
           throw err;
         }
-        console.log(`Contents inserted in ${fileName}!`);
-      })
+        console.log(`Contents inserted in ${name}!`);
+      });
     });
   })
   .catch((err) => console.log("in error", err));
