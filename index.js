@@ -1,3 +1,3 @@
-const generateIconFiles = require("./fileGenerator.js");
+import searchAlgo from "Src/search";
 
-generateIconFiles();
+window.searchAlgo = searchAlgo;

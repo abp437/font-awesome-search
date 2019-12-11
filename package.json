@@ -4,7 +4,9 @@
   "description": "The package searches icons from Font Awesome library based on Search Terms, Category and Name of the icons",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./yml_files/*",
+    "generate": "node ./generateFiles.js",
+    "build": "npm run clean && npm run generate && webpack -p"
   },
   "keywords": [
     "Font",
@@ -17,6 +19,14 @@
   "dependencies": {
     "base64url": "^3.0.1",
     "js-yaml": "^3.13.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "webpack": "^4.41.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "babel-eslint": "^10.0.3",
+    "rimraf": "^3.0.0",
+    "webpack-cli": "^3.3.10"
   }
 }
