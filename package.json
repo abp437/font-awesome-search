@@ -4,9 +4,12 @@
   "description": "The package searches icons from Font Awesome library based on Search Terms, Category and Name of the icons",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./yml_files/*",
-    "generate": "node ./generateFiles.js",
-    "build": "npm run clean && npm run generate && webpack -p"
+    "clean-remote": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./yml_files/*",
+    "clean-local": "rimraf ./dist/* && rimraf ./search_icons/*",
+    "generate-remote": "node ./remoteFiles.js",
+    "generate-local": "node ./localFiles.js",
+    "build-remote": "npm run clean-remote && npm run generate-remote && webpack -p",
+    "build-local": "npm run clean-local && npm run generate-local && webpack -p"
   },
   "keywords": [
     "Font",

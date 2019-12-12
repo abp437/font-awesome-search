@@ -1,10 +1,7 @@
 const fileSystem = require("fs");
 const path = require("path");
-const yaml = require("js-yaml");
+const utils = require("../utils");
 const getFontAwesomeIcons = require("./icons.js");
-
-const getJSObjectFromYML = relativeFilePath =>
-  yaml.safeLoad(fileSystem.readFileSync(relativeFilePath, "utf8"));
 
 const generateYMLFile = (name, decodedContent) => {
   fileSystem.writeFile(
@@ -16,21 +13,7 @@ const generateYMLFile = (name, decodedContent) => {
       }
       console.log(`Contents inserted in ${name}!`);
 
-      generateJSONFile(name);
-    }
-  );
-};
-
-const generateJSONFile = name => {
-  const jsonFileName = `${name.split(".")[0]}.json`;
-  fileSystem.writeFile(
-    `${path.resolve("search_icons")}/${jsonFileName}`,
-    JSON.stringify(getJSObjectFromYML(`${path.resolve("yml_files")}/${name}`)),
-    err => {
-      if (err) {
-        throw err;
-      }
-      console.log(`Contents inserted in ${jsonFileName}!`);
+      utils.generateJSONFile("yml_files", name);
     }
   );
 };
