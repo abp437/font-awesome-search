@@ -1,5 +1,6 @@
-import FontIcons from "SearchIcons/icons";
-import IconCategories from "SearchIcons/categories";
+const FontIcons = require('../search_icons/icons.json');
+const IconCategories = require('../search_icons/categories.json');
+
 
 function addToFinalObject(searchTerm, icon) {
   if (!Array.isArray(manipulatedObject[searchTerm])) {

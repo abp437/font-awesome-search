@@ -19,6 +19,7 @@
   ],
   "author": "Akshay Pawar",
   "license": "MIT",
+  "bin": "./cli.js",
   "dependencies": {
     "base64url": "^3.0.1",
     "js-yaml": "^3.13.1",

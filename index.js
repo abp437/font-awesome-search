@@ -1,3 +1,3 @@
-import searchAlgo from "Src/search";
+import searchAlgo from "./src/search";
 
-window.searchAlgo = searchAlgo;
+export default searchAlgo;

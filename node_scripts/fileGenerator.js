@@ -5,7 +5,7 @@ const getFontAwesomeIcons = require("./icons.js");
 
 const generateYMLFile = (name, decodedContent) => {
   fileSystem.writeFile(
-    `${path.resolve("yml_files")}/${name}`,
+    `${path.resolve(__dirname, "../yml_files")}/${name}`,
     decodedContent,
     err => {
       if (err) {

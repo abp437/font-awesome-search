@@ -7,9 +7,18 @@ const getJSObjectFromYML = relativeFilePath =>
 
 const generateJSONFile = (ymlFolderName, ymlFileName) => {
   const jsonFileName = `${ymlFileName.split(".")[0]}.json`;
+
   fileSystem.writeFile(
-    `${path.resolve("search_icons")}/${jsonFileName}`,
-    JSON.stringify(getJSObjectFromYML(`${path.resolve(ymlFolderName)}/${ymlFileName}`)),
+    `${path.resolve(__dirname, "../search_icons/", jsonFileName)}`,
+    JSON.stringify(
+      getJSObjectFromYML(
+        `${path.resolve(
+          __dirname,
+          `../${ymlFolderName}`,
+          ymlFileName
+        )}`
+      )
+    ),
     err => {
       if (err) {
         throw err;
