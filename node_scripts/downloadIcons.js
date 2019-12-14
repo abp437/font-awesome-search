@@ -1,10 +1,13 @@
+const fileSystem = require("fs");
+const path = require("path");
 const fetch = require("node-fetch");
 const base64 = require("base64url");
+const utils = require("../utils");
 
 const fontAwesomeFiles = ["categories.yml", "icons.yml"];
 
 // Grab Font Awesome YML files from Font Awesome Github repo
-const getFontAwesomeIcons = () => {
+function fetchIcons() {
   return Promise.all(
     fontAwesomeFiles.map(
       fileName =>
@@ -32,4 +35,33 @@ const getFontAwesomeIcons = () => {
   );
 };
 
-module.exports = getFontAwesomeIcons;
+function generateYmlFile(name, content) {
+  utils.createDirectoryIfMissing(
+    `${path.join(__dirname, "..", "remote_yml_files")}`
+  );
+  fileSystem.writeFile(
+    `${path.resolve(__dirname, "../remote_yml_files")}/${name}`,
+    content,
+    err => {
+      if (err) {
+        throw err;
+      }
+      console.log(`Contents inserted in ${name}!`);
+
+      utils.createJsonFromRemoteYml("remote_yml_files", name);
+    }
+  );
+};
+
+function downloadIcons() {
+  fetchIcons()
+    .then(decodedContent => {
+      decodedContent.forEach(fileMetaData => {
+        const { name, decodedContent } = fileMetaData;
+        generateYmlFile(name, decodedContent);
+      });
+    })
+    .catch(err => console.log("Error: ", err));
+};
+
+module.exports = downloadIcons;

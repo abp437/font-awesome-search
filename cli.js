@@ -1,32 +1,15 @@
 #!/usr/bin/env node
 
-const fileSystem = require("fs");
-const yaml = require("js-yaml");
-const generateIconFiles = require("./node_scripts/fileGenerator.js");
-// const utils = require("./utils");
+const utils = require("./utils");
+const downloadIcons = require("./node_scripts/downloadIcons.js");
+const { R, icons, categories } = utils.getArgs();
 
-const getJSObjectFromYML = relativeFilePath =>
-  yaml.safeLoad(fileSystem.readFileSync(relativeFilePath, "utf8"));
-
-if (process.argv[2] === "true") {
+if (R) {
   // Generate files from Remote
-  generateIconFiles();
+  downloadIcons();
 } else {
   // Generate files from Local
-  process.argv.slice(2).forEach(filePath => {
-    fileSystem.writeFile(
-      `${__dirname}/search_icons/${
-        filePath
-          .split("/")
-          .pop()
-          .split(".")[0]
-      }.json`,
-      JSON.stringify(getJSObjectFromYML(filePath)),
-      () => {
-        console.log("Kamerad Da Gibt es Kein Zuruck");
-      }
-    );
+  [icons, categories].forEach(filePath => {
+    utils.createJsonFromLocalYml(filePath);
   });
 }
-
-console.log(process.argv.slice(2));

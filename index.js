@@ -1,3 +1,3 @@
-import searchAlgo from "./src/search";
+import search from "./src/search";
 
-export default searchAlgo;
+export default search;
