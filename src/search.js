@@ -40,15 +40,30 @@ for (const icon in FontIcons) {
 }
 
 /**
+ * @description Builds a regex in the format /a[^b]*b[^c]*c/ for abc
+ * @param {String} query - The query to construct Regex from
+ * @returns {RegExp} in the format /a[^b]*b[^c]*c/ for abc
+ */
+function getRegex(query) {
+  let regex = query.charAt(0);
+  for (let i = 1; i < query.length; i++) {
+    const character = query.charAt(i);
+    regex = `${regex}[^${character}]*${character}`;
+  }
+  return new RegExp(`${regex}`, "i");
+}
+
+/**
  * @description Searches the `searchTokens` object and returns Search results
  * @param {String} searchQuery - The query to be applied upon `searchTokens` object
  * @returns {Array} - of search results
  */
-function search(searchQuery = '') {
+function search(searchQuery = "") {
   if (searchQuery.length) {
     const searchResults = new Set();
+    const regex = getRegex(searchQuery);
     const filteredResult = Object.keys(searchTokens).filter(item =>
-      new RegExp(`${searchQuery}`, "ig").test(item)
+      regex.test(item)
     );
     filteredResult.forEach(item => {
       if (Array.isArray(searchTokens[item])) {
