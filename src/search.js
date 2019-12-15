@@ -1,14 +1,14 @@
-import FontIcons from "SearchIcons/icons";
-import IconCategories from "SearchIcons/categories";
+const FontIcons = require("../search_icons/icons.json");
+const IconCategories = require("../search_icons/categories.json");
+
+const searchTokens = {};
 
 function addToFinalObject(searchTerm, icon) {
-  if (!Array.isArray(manipulatedObject[searchTerm])) {
-    manipulatedObject[searchTerm] = [];
+  if (!Array.isArray(searchTokens[searchTerm])) {
+    searchTokens[searchTerm] = [];
   }
-  manipulatedObject[searchTerm].push(icon);
+  searchTokens[searchTerm].push(icon);
 }
-
-const manipulatedObject = {};
 
 for (const category in IconCategories) {
   if (IconCategories.hasOwnProperty(category)) {
@@ -20,8 +20,8 @@ for (const category in IconCategories) {
 
 for (const icon in FontIcons) {
   if (FontIcons.hasOwnProperty(icon)) {
-    manipulatedObject[icon] = icon;
-    manipulatedObject[FontIcons[icon]["label"].toLowerCase()] = FontIcons[icon][
+    searchTokens[icon] = icon;
+    searchTokens[FontIcons[icon]["label"].toLowerCase()] = FontIcons[icon][
       "label"
     ]
       .toLowerCase()
@@ -33,28 +33,24 @@ for (const icon in FontIcons) {
   }
 }
 
-const filterIconsList = searchQuery => {
+function search(searchQuery) {
   if (searchQuery.length) {
-    const searchResult = [];
-    const uniqueSearchResult = new Set();
-    const filteredResult = Object.keys(manipulatedObject).filter(item =>
+    const searchResults = new Set();
+    const filteredResult = Object.keys(searchTokens).filter(item =>
       new RegExp(`${searchQuery}`, "ig").test(item)
     );
     filteredResult.forEach(item => {
-      if (Array.isArray(manipulatedObject[item])) {
-        manipulatedObject[item].forEach(itemClass => {
-          uniqueSearchResult.add(itemClass);
+      if (Array.isArray(searchTokens[item])) {
+        searchTokens[item].forEach(itemClass => {
+          searchResults.add(itemClass);
         });
       } else {
-        uniqueSearchResult.add(item);
+        searchResults.add(item);
       }
     });
-    for (const itemClass of uniqueSearchResult) {
-      searchResult.push(itemClass);
-    }
-    return searchResult;
+    return [...searchResults];
   }
   return Object.keys(FontIcons);
 };
 
-export default filterIconsList;
+export default search;

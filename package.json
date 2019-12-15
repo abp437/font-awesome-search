@@ -4,12 +4,12 @@
   "description": "The package searches icons from Font Awesome library based on Search Terms, Category and Name of the icons",
   "main": "index.js",
   "scripts": {
-    "clean-remote": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./yml_files/*",
-    "clean-local": "rimraf ./dist/* && rimraf ./search_icons/*",
-    "generate-remote": "node ./remoteFiles.js",
-    "generate-local": "node ./localFiles.js",
+    "clean-remote": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./remote_yml_files/*",
+    "clean": "rimraf ./dist/*",
+    "generate-remote": "node ./remoteFilesCreator.js",
+    "generate-local": "node ./localFilesCreator.js $FILE_1 $FILE_2",
     "build-remote": "npm run clean-remote && npm run generate-remote && webpack -p",
-    "build-local": "npm run clean-local && npm run generate-local && webpack -p"
+    "build-local": "npm run clean && webpack -p"
   },
   "keywords": [
     "Font",
@@ -19,6 +19,7 @@
   ],
   "author": "Akshay Pawar",
   "license": "MIT",
+  "bin": "./cli.js",
   "dependencies": {
     "base64url": "^3.0.1",
     "js-yaml": "^3.13.1",
