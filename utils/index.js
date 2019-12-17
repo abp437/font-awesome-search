@@ -2,7 +2,11 @@ const fileSystem = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
 
-function getArgs() {
+/**
+ * @description Gets arguments from CLI, parses them and returns them as an object
+ * @returns {Object} - {{argName: argValue}}
+ */
+function getCliArgs() {
   const args = {};
   process.argv.slice(2, process.argv.length).forEach(arg => {
     // File Path Arguments
@@ -21,18 +25,33 @@ function getArgs() {
     }
   });
   return args;
-};
+}
 
+/**
+ * @description Checks whether a directory is present and if not, then creates it
+ * @param {String} directoryPath - Relative Path of the directory to be checked
+ * @returns {undefined}
+ */
 function createDirectoryIfMissing(directoryPath) {
   if (!fileSystem.existsSync(directoryPath)) {
     fileSystem.mkdirSync(directoryPath);
   }
-};
+}
 
+/**
+ * @description Reads `.yml` file and returns it's content
+ * @param {String} absoluteFilePath - Absolute Path of the file to be read
+ * @returns {String} - Content of the read file
+ */
 function readYml(absoluteFilePath) {
   return yaml.safeLoad(fileSystem.readFileSync(absoluteFilePath, "utf8"));
 }
 
+/**
+ * @description Creates `.json` files from provided `.yml` files from Local
+ * @param {String} filePath - Absolute path of the file
+ * @returns {undefined}
+ */
 function createJsonFromLocalYml(filePath) {
   const jsonFileName = filePath
     .split("/")
@@ -50,8 +69,14 @@ function createJsonFromLocalYml(filePath) {
       console.log(`Contents inserted in ${jsonFileName}!`);
     }
   );
-};
+}
 
+/**
+ * @description - Creates `.json` files from provided `.yml` files from remote
+ * @param {String} ymlFolderName - Folder name of the `.yml` file to be placed in
+ * @param {String} ymlFileName - Name of the `.yml` file, along with extension
+ * @returns {undefined}
+ */
 function createJsonFromRemoteYml(ymlFolderName, ymlFileName) {
   const jsonFileName = `${ymlFileName.split(".")[0]}.json`;
 
@@ -59,9 +84,7 @@ function createJsonFromRemoteYml(ymlFolderName, ymlFileName) {
   fileSystem.writeFile(
     `${path.resolve(__dirname, "../search_icons/", jsonFileName)}`,
     JSON.stringify(
-      readYml(
-        `${path.resolve(__dirname, `../${ymlFolderName}`, ymlFileName)}`
-      )
+      readYml(`${path.resolve(__dirname, `../${ymlFolderName}`, ymlFileName)}`)
     ),
     err => {
       if (err) {
@@ -70,10 +93,10 @@ function createJsonFromRemoteYml(ymlFolderName, ymlFileName) {
       console.log(`Contents inserted in ${jsonFileName}!`);
     }
   );
-};
+}
 
 module.exports = {
-  getArgs,
+  getCliArgs,
   createDirectoryIfMissing,
   createJsonFromLocalYml,
   createJsonFromRemoteYml
