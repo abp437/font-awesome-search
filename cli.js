@@ -2,7 +2,7 @@
 
 const utils = require("./utils");
 const downloadIcons = require("./node_scripts/downloadIcons.js");
-const { R, icons, categories } = utils.getArgs();
+const { R, icons, categories } = utils.getCliArgs();
 
 if (R) {
   // Generate files from Remote

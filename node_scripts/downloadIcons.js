@@ -6,7 +6,10 @@ const utils = require("../utils");
 
 const fontAwesomeFiles = ["categories.yml", "icons.yml"];
 
-// Grab Font Awesome YML files from Font Awesome Github repo
+/**
+ * @description Fetches `yml` files from Font Awesome Open Source
+ * @returns {Promise<Object, Error>} {{name: string, decodedContent: string}}
+ */
 function fetchIcons() {
   return Promise.all(
     fontAwesomeFiles.map(
@@ -33,8 +36,14 @@ function fetchIcons() {
         })
     )
   );
-};
+}
 
+/**
+ * @description Generates `.yml` files on local inside `remote_yml_files` directory
+ * @param {String} name - Name of the file
+ * @param {String} content - Content of the file
+ * @returns {undefined}
+ */
 function generateYmlFile(name, content) {
   utils.createDirectoryIfMissing(
     `${path.join(__dirname, "..", "remote_yml_files")}`
@@ -51,8 +60,12 @@ function generateYmlFile(name, content) {
       utils.createJsonFromRemoteYml("remote_yml_files", name);
     }
   );
-};
+}
 
+/**
+ * @description Calls `fetchIcons` and passes {{name: string, decodedContent: string}} to `generateYmlFile`
+ * @returns {undefined}
+ */
 function downloadIcons() {
   fetchIcons()
     .then(decodedContent => {
@@ -62,6 +75,6 @@ function downloadIcons() {
       });
     })
     .catch(err => console.log("Error: ", err));
-};
+}
 
 module.exports = downloadIcons;
