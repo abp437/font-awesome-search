@@ -1,0 +1,37 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [
+      1,
+      80,
+      2,
+      {
+        "ignoreComments": true
+      }
+    ],
+    "quote-props": [1, "consistent-as-needed"],
+    "no-cond-assign": [2, "except-parens"],
+    "radix": 0,
+    "no-console": "off",
+    "space-infix-ops": 0,
+    "prefer-const": 1,
+    "one-var": ["error", "always"],
+    "no-unused-vars": [
+      1,
+      {
+        "vars": "local",
+        "args": "none"
+      }
+    ],
+    "default-case": 0,
+    "no-else-return": 0,
+    "no-param-reassign": 0,
+    "quotes": 0
+  }
+}

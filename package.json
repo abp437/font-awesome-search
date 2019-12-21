@@ -1,0 +1,40 @@
+{
+  "name": "font-awesome-search",
+  "version": "1.0.0",
+  "description": "The package searches icons from Font Awesome library based on Search Terms, Category and Name of the icons",
+  "main": "index.js",
+  "scripts": {
+    "clean-remote": "rimraf ./dist/* && rimraf ./search_icons/* && rimraf ./remote_yml_files/*",
+    "clean": "rimraf ./dist/*",
+    "generate-remote": "node ./remoteFilesCreator.js",
+    "generate-local": "node ./localFilesCreator.js $FILE_1 $FILE_2",
+    "build-remote": "npm run clean-remote && npm run generate-remote && webpack -p",
+    "build-local": "npm run clean && webpack -p"
+  },
+  "keywords": [
+    "Font",
+    "Awesome",
+    "Search",
+    "Icons"
+  ],
+  "author": "Akshay Pawar",
+  "license": "GNU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abp437/font-awesome-search.git"
+  },
+  "bin": "./cli.js",
+  "dependencies": {
+    "base64url": "^3.0.1",
+    "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0",
+    "webpack": "^4.41.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "babel-eslint": "^10.0.3",
+    "rimraf": "^3.0.0",
+    "webpack-cli": "^3.3.10"
+  }
+}
