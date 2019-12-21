@@ -18,7 +18,11 @@
     "Icons"
   ],
   "author": "Akshay Pawar",
-  "license": "MIT",
+  "license": "GNU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abp437/font-awesome-search.git"
+  },
   "bin": "./cli.js",
   "dependencies": {
     "base64url": "^3.0.1",
