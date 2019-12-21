@@ -28,8 +28,8 @@ for (const icon in FontIcons) {
   if (FontIcons.hasOwnProperty(icon)) {
     searchTokens[icon] = icon;
     searchTokens[FontIcons[icon]["label"].toLowerCase()] = FontIcons[icon][
-      "label"
-    ]
+        "label"
+      ]
       .toLowerCase()
       .split(" ")
       .join("-");
@@ -54,29 +54,53 @@ function getRegex(query) {
 }
 
 /**
- * @description Searches the `searchTokens` object and returns Search results
- * @param {String} searchQuery - The query to be applied upon `searchTokens` object
- * @returns {Array} - of search results
+ * @description Configures the Search Algorithm based on `fontStyles` provided to it
+ * @param {Object} configObject - {{ fontStyles: {Array}}}
+ * @returns {Function} - which has access to `configObject`
  */
-function search(searchQuery = "") {
-  if (searchQuery.length) {
+function search(configObject = {
+  fontStyles: ["regular", "solid", "brands", "duotone", "light"]
+}) {
+  /**
+   * @description Searches the `searchTokens` object and returns Search results
+   * @param {String} searchQuery - The query to be applied upon `searchTokens` object
+   * @returns {Array} - of search results
+   */
+  return function (searchQuery = "") {
+    const {
+      fontStyles
+    } = configObject;
+    if (!Array.isArray(fontStyles)) {
+      throw new Error("Invalid Argument passed! Expected an Array.");
+    }
     const searchResults = new Set();
     const regex = getRegex(searchQuery);
     const filteredResult = Object.keys(searchTokens).filter(item =>
       regex.test(item)
     );
+
+    const addToResult = item => {
+      if (FontIcons[item] !== undefined) {
+        FontIcons[item]["styles"].forEach((style) => {
+          if (fontStyles.toString().indexOf(style) === -1) {
+            return;
+          }
+          searchResults.add(`fa${style.charAt(0)} ${item}`);
+        });
+      }
+    }
+
     filteredResult.forEach(item => {
       if (Array.isArray(searchTokens[item])) {
         searchTokens[item].forEach(itemClass => {
-          searchResults.add(itemClass);
+          addToResult(itemClass);
         });
       } else {
-        searchResults.add(item);
+        addToResult(item);
       }
     });
     return [...searchResults];
   }
-  return Object.keys(FontIcons);
 }
 
 export default search;
