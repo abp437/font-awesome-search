@@ -85,7 +85,7 @@ function search(configObject = {
           if (fontStyles.toString().indexOf(style) === -1) {
             return;
           }
-          searchResults.add(`fa${style.charAt(0)} ${item}`);
+          searchResults.add(`fa${style.charAt(0)} fa-${item}`);
         });
       }
     }
