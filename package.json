@@ -1,6 +1,6 @@
 {
   "name": "font-awesome-search",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The package searches icons from Font Awesome library based on Search Terms, Category and Name of the icons",
   "main": "index.js",
   "scripts": {
